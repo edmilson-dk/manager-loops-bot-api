@@ -11,10 +11,18 @@ generator client {
 }
 
 model Admin {
-  id        String   @id // The primary key
+  id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Music {
+  id        String   @id
+  name      String
+  author    String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }

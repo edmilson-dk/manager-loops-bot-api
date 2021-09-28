@@ -1,5 +1,5 @@
 import { FindAdminResponse } from "./ports";
 
 export interface IAdminUseCase {
-  findAdmin: (email: string) => Promise<FindAdminResponse>;
+  findAdmin: (email: string, password: string) => Promise<FindAdminResponse>;
 }

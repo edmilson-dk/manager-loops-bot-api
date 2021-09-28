@@ -1,5 +1,5 @@
-import { AdminDBType } from "../types";
+import { FindAdminResponse } from "./ports";
 
 export interface IAdminUseCase {
-  findAdmin: (id: string) => Promise<AdminDBType | null>;
+  findAdmin: (email: string) => Promise<FindAdminResponse>;
 }

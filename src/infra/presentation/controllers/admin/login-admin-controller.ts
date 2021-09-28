@@ -29,7 +29,7 @@ export class LoginAdminController implements BaseController {
       }
 
       const data = AdminMapper.fromDTO(userOrError.value);
-      const token = createJWT({ email: data.email, name: data.name });
+      const token = createJWT({ email: data.email, id: data.id });
 
       return ok({ admin: data, token }, 200);
     } catch (err) {

@@ -5,3 +5,11 @@ export function isValidEmail(email: string) {
 
   return emailRegex.test(email);
 }
+
+export function isValidUrl(url: string) {
+  const urlRegex = new RegExp(
+    /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
+  );
+
+  return urlRegex.test(url);
+}

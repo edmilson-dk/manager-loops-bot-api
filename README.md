@@ -4,7 +4,7 @@ API para fazer o gerenciamento do bot Loops.
 
 # To-Do
 
-- [ ] Modelar banco de dados
+- [x] Modelar banco de dados
 - [ ] Criar fluxo de autenticação do admin
 - [ ] Criar rota para adicionar uma nova url de música.
   - [ ] Pegar informações da música

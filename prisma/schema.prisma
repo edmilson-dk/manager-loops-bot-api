@@ -25,7 +25,7 @@ model Music {
 }
 
 model Connection {
-  id        String   @id
+  id        String   @id @default(uuid())
   name      String
   createdAt DateTime @default(now())
 }

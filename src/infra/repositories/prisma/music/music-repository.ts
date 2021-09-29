@@ -28,4 +28,23 @@ export class MusicRepository implements IMusicRepository {
       };
     });
   }
+
+  async getMusic(id: string): Promise<MusicDBType | null> {
+    const data = await prismaDB.music.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!data) return null;
+
+    return {
+      id: data.id,
+      name: data.name,
+      artist: data.artist,
+      url: data.url,
+      createdAt: data.createdAt.toISOString(),
+      updatedAt: data.updatedAt.toISOString(),
+    };
+  }
 }

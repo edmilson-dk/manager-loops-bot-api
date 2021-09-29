@@ -6,3 +6,4 @@ import { MusicDBType } from "../types";
 
 export type AddMusicResponse = Either<InvalidUrlError | NotFoundMusicError, MusicInfosType>;
 export type GetMusicsResponse = MusicDBType[];
+export type GetMusicResponse = Either<NotFoundMusicError, MusicDBType>;

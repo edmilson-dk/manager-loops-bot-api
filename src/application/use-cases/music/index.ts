@@ -9,7 +9,8 @@ import { isValidUrl } from "../../../_shared/validations";
 import { IMusicRepository } from "../../repositories/music";
 import { IMusicServices } from "../../services/music";
 import { InvalidUrlError } from "../../../domain/music/errors/invalid-url-error";
-import { AddMusicResponse, GetMusicsResponse } from "../../../domain/music/ports";
+import { AddMusicResponse, GetMusicResponse, GetMusicsResponse } from "../../../domain/music/ports";
+import { NotFoundMusicError } from "../../../domain/music/errors/not-found-music-error";
 
 const saveYTMusicFrom = process.env.FILES_YOUTUBE_PATH as string;
 
@@ -59,5 +60,15 @@ export class MusicUseCases implements IMusicUseCases {
   async getMusics(): Promise<GetMusicsResponse> {
     const musics = await this.musicRepository.getMusics();
     return musics;
+  }
+
+  async getMusic(id: string): Promise<GetMusicResponse> {
+    const musicOrNull = await this.musicRepository.getMusic(id);
+
+    if (!musicOrNull) {
+      return left(new NotFoundMusicError(id));
+    }
+
+    return right(musicOrNull);
   }
 }

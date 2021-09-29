@@ -8,8 +8,8 @@ import { left, right } from "../../../_shared/either";
 import { isValidUrl } from "../../../_shared/validations";
 import { IMusicRepository } from "../../repositories/music";
 import { IMusicServices } from "../../services/music";
-import { InvalidUrlError } from "./errors/invalid-url-error";
-import { AddMusicResponse } from "./ports";
+import { InvalidUrlError } from "../../../domain/music/errors/invalid-url-error";
+import { AddMusicResponse, GetMusicsResponse } from "../../../domain/music/ports";
 
 const saveYTMusicFrom = process.env.FILES_YOUTUBE_PATH as string;
 
@@ -54,5 +54,10 @@ export class MusicUseCases implements IMusicUseCases {
     });
 
     return right(infos);
+  }
+
+  async getMusics(): Promise<GetMusicsResponse> {
+    const musics = await this.musicRepository.getMusics();
+    return musics;
   }
 }

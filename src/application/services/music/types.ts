@@ -11,6 +11,7 @@ export type MusicDownloadUrlType = {
   saveToPath: string;
   url: string;
   saveName: string;
+  fn: Function;
 };
 
 export type MusicDownloadType = {

@@ -3,6 +3,7 @@ import { Storage } from "@google-cloud/storage";
 import dotenv from "dotenv";
 dotenv.config();
 import fs from "fs";
+import EventEmitter from "events";
 
 import { IMusicServices } from "../../../application/services/music";
 import {
@@ -12,6 +13,7 @@ import {
   MusicUploadType,
 } from "../../../application/services/music/types";
 
+const eventEmitter = new EventEmitter();
 const storage = new Storage({
   keyFilename: process.env.FIREBASE_KEYS_JSON,
   projectId: process.env.FIREBASE_PROJECT_ID,
@@ -50,9 +52,8 @@ export class MusicServices implements IMusicServices {
     return this;
   }
 
-  async downloadUrlMusic({ saveName, saveToPath, url }: MusicDownloadUrlType): Promise<string> {
-    const filePath = `${saveToPath}/${saveName}.mp3`;
-    const saveMusicStream = fs.createWriteStream(`${saveToPath}/${saveName}.mp3`);
+  async downloadUrlMusic({ saveName, saveToPath, url, fn }: MusicDownloadUrlType): Promise<string> {
+    const saveMusicStream = fs.createWriteStream(saveToPath);
 
     const readableStream = ytdl(url, {
       quality: "highestaudio",
@@ -61,9 +62,14 @@ export class MusicServices implements IMusicServices {
 
     readableStream.pipe(saveMusicStream).on("finish", () => {
       console.log(`${saveName} downloaded to ${saveToPath}`);
+      eventEmitter.emit("downloaded", {
+        saveName,
+        saveToPath,
+      });
+      fn();
     });
 
-    return filePath;
+    return saveToPath;
   }
 
   async downloadMusic(props: MusicDownloadType): Promise<string> {

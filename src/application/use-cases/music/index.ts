@@ -12,7 +12,6 @@ import { InvalidUrlError } from "./errors/invalid-url-error";
 import { AddMusicResponse } from "./ports";
 
 const saveYTMusicFrom = process.env.FILES_YOUTUBE_PATH as string;
-const saveFirebaseMusicFrom = process.env.FILES_FIREBASE_PATH as string;
 
 export class MusicUseCases implements IMusicUseCases {
   private readonly musicRepository: IMusicRepository;
@@ -41,17 +40,17 @@ export class MusicUseCases implements IMusicUseCases {
     });
 
     const musicPath = `${saveYTMusicFrom}/${id}.mp3`;
-
-    await this.musicServices.downloadUrlMusic({
+    const downloadData = {
       saveName: id,
       saveToPath: musicPath,
       url: music.url,
-      fn: async () => {
-        await this.musicServices.uploadMusic({
-          filePath: musicPath,
-          saveName: `${id}.mp3`,
-        });
-      },
+    };
+
+    await this.musicServices.downloadUrlMusic(downloadData, async () => {
+      await this.musicServices.uploadMusic({
+        filePath: musicPath,
+        saveName: `${id}.mp3`,
+      });
     });
 
     return right(infos);

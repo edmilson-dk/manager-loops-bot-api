@@ -52,7 +52,10 @@ export class MusicServices implements IMusicServices {
     return this;
   }
 
-  async downloadUrlMusic({ saveName, saveToPath, url, fn }: MusicDownloadUrlType): Promise<string> {
+  async downloadUrlMusic(
+    { saveName, saveToPath, url }: MusicDownloadUrlType,
+    callback: Function,
+  ): Promise<string> {
     const saveMusicStream = fs.createWriteStream(saveToPath);
 
     const readableStream = ytdl(url, {
@@ -66,7 +69,7 @@ export class MusicServices implements IMusicServices {
         saveName,
         saveToPath,
       });
-      fn();
+      callback();
     });
 
     return saveToPath;

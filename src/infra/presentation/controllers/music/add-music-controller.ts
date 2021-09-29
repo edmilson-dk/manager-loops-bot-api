@@ -1,4 +1,3 @@
-import { IMusicServices } from "../../../../application/services/music";
 import { IMusicUseCases } from "../../../../domain/music/use-cases";
 import { HttpRequest, HttpResponse } from "../../http/ports";
 import { badRequest, ok, serverError } from "../../http/responses";
@@ -7,11 +6,9 @@ import { MissingParamError } from "../errors/missing-params-error";
 
 export class AddMusicController implements BaseController {
   private readonly musicUseCase: IMusicUseCases;
-  private readonly musicServices: IMusicServices;
 
-  constructor(musicUseCase: IMusicUseCases, musicServices: IMusicServices) {
+  constructor(musicUseCase: IMusicUseCases) {
     this.musicUseCase = musicUseCase;
-    this.musicServices = musicServices;
   }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -22,20 +19,25 @@ export class AddMusicController implements BaseController {
         return badRequest(new MissingParamError("Url is required"));
       }
 
-      const infosOrError = await this.musicServices.getMusicInfosByUrl(url);
+      const infosOrError = await this.musicUseCase.addMusic({
+        url,
+        artist,
+      });
 
       if (infosOrError.isLeft()) {
         return badRequest(infosOrError.value, 400);
       }
 
-      const musicInfos = infosOrError.value;
-      await this.musicUseCase.addMusic({
-        name: musicInfos.name,
-        artist,
-        url,
-      });
+      const music = infosOrError.value;
 
-      return ok({ music: musicInfos }, 201);
+      return ok(
+        {
+          url,
+          artist,
+          name: music.name,
+        },
+        201,
+      );
     } catch (err) {
       return serverError("Interval server error");
     }

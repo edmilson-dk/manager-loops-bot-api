@@ -1,5 +1,6 @@
-import { CreateMusicType } from "../types";
+import { AddMusicResponse } from "../../../application/use-cases/music/ports";
+import { CreateMusicInputType } from "../types";
 
 export interface IMusicUseCases {
-  addMusic: (music: CreateMusicType) => Promise<void>;
+  addMusic: (music: CreateMusicInputType) => Promise<AddMusicResponse>;
 }

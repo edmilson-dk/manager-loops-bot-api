@@ -1,5 +1,5 @@
-import { GetMusicInfosByUrlResponse } from "./ports";
+import { MusicInfosType } from "./types";
 
 export interface IMusicServices {
-  getMusicInfosByUrl(url: string): Promise<GetMusicInfosByUrlResponse>;
+  getMusicInfosByUrl(url: string): Promise<MusicInfosType>;
 }

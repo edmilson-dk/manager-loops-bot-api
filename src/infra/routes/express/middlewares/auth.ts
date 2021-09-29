@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
+
 import { verifyJWT } from "../../../../_shared/security/jwt-token";
 
-function authMiddleware(req: Request, res: Response, next: NextFunction) {
+export function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -30,5 +31,3 @@ function authMiddleware(req: Request, res: Response, next: NextFunction) {
     return next();
   });
 }
-
-export default authMiddleware;

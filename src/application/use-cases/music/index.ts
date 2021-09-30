@@ -33,7 +33,7 @@ export class MusicUseCases implements IMusicUseCases {
     const infos = await this.musicServices.getMusicInfosByUrl(music.url);
     const id = generateUUID();
 
-    await this.musicRepository.addMusic({
+    const position = await this.musicRepository.addMusic({
       artist: music.artist,
       url: music.url,
       name: infos.name,
@@ -56,6 +56,7 @@ export class MusicUseCases implements IMusicUseCases {
       name: infos.name,
       artist: music.artist,
       url: music.url,
+      position: position.position,
     });
   }
 

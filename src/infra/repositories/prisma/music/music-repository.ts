@@ -4,10 +4,10 @@ import { CreateMusicType, MusicDBType } from "../../../../domain/music/types";
 import { MusicMapper } from "../../../../domain/mappers/music";
 
 export class MusicRepository implements IMusicRepository {
-  async addMusic(music: CreateMusicType): Promise<void> {
+  async addMusic(music: CreateMusicType): Promise<{ position: number }> {
     const musicsCount = await prismaDB.music.count();
 
-    await prismaDB.music.create({
+    const position = await prismaDB.music.create({
       data: {
         artist: music.artist,
         id: music.id,
@@ -15,7 +15,12 @@ export class MusicRepository implements IMusicRepository {
         url: music.url,
         position: musicsCount,
       },
+      select: {
+        position: true,
+      },
     });
+
+    return position;
   }
 
   async getMusics(): Promise<MusicDBType[]> {

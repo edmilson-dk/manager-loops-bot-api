@@ -30,4 +30,5 @@ export type MusicType = {
   name: string;
   artist: string;
   url: string;
+  position: number;
 };

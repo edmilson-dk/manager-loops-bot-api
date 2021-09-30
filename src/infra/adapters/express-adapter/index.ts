@@ -9,6 +9,7 @@ export const adaptRoute = (controller: BaseController) => {
       body: req.body,
       params: req.params,
       query: req.query,
+      io: req.io,
       rest: { ...req },
     };
 
@@ -23,6 +24,7 @@ export const adaptRouteWithSendFileStream = (controller: BaseController) => {
       body: req.body,
       params: req.params,
       query: req.query,
+      io: req.io,
       rest: { ...req },
     };
 

@@ -23,3 +23,10 @@ export type MusicFileInfosType = MusicDBType & {
   fileName: string;
   filePath: string;
 };
+
+export type MusicType = {
+  id: string;
+  name: string;
+  artist: string;
+  url: string;
+};

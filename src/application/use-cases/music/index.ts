@@ -51,7 +51,12 @@ export class MusicUseCases implements IMusicUseCases {
       console.log("Download complete");
     });
 
-    return right(infos);
+    return right({
+      id,
+      name: infos.name,
+      artist: music.artist,
+      url: music.url,
+    });
   }
 
   async getMusics(): Promise<GetMusicsResponse> {

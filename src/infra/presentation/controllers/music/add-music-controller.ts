@@ -29,16 +29,18 @@ export class AddMusicController implements BaseController {
       }
 
       const music = infosOrError.value;
+      const infos = {
+        url,
+        artist,
+        name: music.name,
+        id: music.id,
+      };
 
-      return ok(
-        {
-          url,
-          artist,
-          name: music.name,
-        },
-        201,
-      );
+      httpRequest.rest.io.emit("addNewMusic", infos);
+
+      return ok({ infos }, 201);
     } catch (err) {
+      console.log(err);
       return serverError("Interval server error");
     }
   }

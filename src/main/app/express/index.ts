@@ -13,7 +13,7 @@ const socket = new Sockets(server);
 socket.ioServer.on("connection", socket.onConnection);
 
 app.use((req, res, next) => {
-  req.io = socket.io;
+  req.io = socket;
   return next();
 });
 

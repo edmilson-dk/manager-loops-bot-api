@@ -11,6 +11,7 @@ import { IMusicServices } from "../../services/music";
 import { InvalidUrlError } from "../../../domain/music/errors/invalid-url-error";
 import { AddMusicResponse, GetMusicResponse, GetMusicsResponse } from "../../../domain/music/ports";
 import { NotFoundMusicError } from "../../../domain/music/errors/not-found-music-error";
+import { Sockets } from "../../../_shared/sockets";
 
 const saveYTMusicFrom = process.env.FILES_YOUTUBE_PATH as string;
 
@@ -23,7 +24,7 @@ export class MusicUseCases implements IMusicUseCases {
     this.musicServices = musicServices;
   }
 
-  async addMusic(music: CreateMusicInputType): Promise<AddMusicResponse> {
+  async addMusic(music: CreateMusicInputType, socket: Sockets): Promise<AddMusicResponse> {
     const urlValidation = isValidUrl(music.url);
 
     if (!urlValidation) {
@@ -40,24 +41,26 @@ export class MusicUseCases implements IMusicUseCases {
       id,
     });
 
-    const musicPath = `${saveYTMusicFrom}/${id}.mp3`;
-    const downloadData = {
-      saveName: id,
-      saveToPath: musicPath,
-      url: music.url,
-    };
-
-    await this.musicServices.downloadUrlMusic(downloadData, async () => {
-      console.log("Download complete");
-    });
-
-    return right({
+    const musicInfos = {
       id,
       name: infos.name,
       artist: music.artist,
       url: music.url,
       position: position.position,
+    };
+
+    const downloadData = {
+      saveName: id,
+      saveToPath: `${saveYTMusicFrom}/${id}.mp3`,
+      url: music.url,
+    };
+
+    await this.musicServices.downloadUrlMusic(downloadData, async () => {
+      console.log("Download complete");
+      socket.ioServer.emit("addNewMusic", musicInfos);
     });
+
+    return right(musicInfos);
   }
 
   async getMusics(): Promise<GetMusicsResponse> {

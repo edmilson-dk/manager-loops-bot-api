@@ -19,10 +19,13 @@ export class AddMusicController implements BaseController {
         return badRequest(new MissingParamError("Url is required"));
       }
 
-      const infosOrError = await this.musicUseCase.addMusic({
-        url,
-        artist,
-      });
+      const infosOrError = await this.musicUseCase.addMusic(
+        {
+          url,
+          artist,
+        },
+        httpRequest.rest.io,
+      );
 
       if (infosOrError.isLeft()) {
         return badRequest(infosOrError.value, 400);
@@ -37,11 +40,8 @@ export class AddMusicController implements BaseController {
         position: music.position,
       };
 
-      httpRequest.rest.io.emit("addNewMusic", infos);
-
       return ok({ infos }, 201);
     } catch (err) {
-      console.log(err);
       return serverError("Interval server error");
     }
   }

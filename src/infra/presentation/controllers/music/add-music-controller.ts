@@ -34,6 +34,7 @@ export class AddMusicController implements BaseController {
         artist,
         name: music.name,
         id: music.id,
+        position: music.position,
       };
 
       httpRequest.rest.io.emit("addNewMusic", infos);

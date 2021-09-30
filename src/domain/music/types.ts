@@ -18,3 +18,8 @@ export type MusicDBType = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type MusicFileInfosType = MusicDBType & {
+  fileName: string;
+  filePath: string;
+};

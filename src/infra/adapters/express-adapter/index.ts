@@ -27,6 +27,8 @@ export const adaptRouteWithSendFileStream = (controller: BaseController) => {
     };
 
     const httpResponse = await controller.handle(httpRequest);
-    res.status(httpResponse.statusCode).sendFile(httpResponse.body);
+    res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("Content-Disposition", `attachment; filename=${req.params.id}`);
+    httpResponse.body.pipe(res);
   };
 };

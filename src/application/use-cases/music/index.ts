@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { CreateMusicInputType } from "../../../domain/music/types";
+import { CreateMusicInputType, MusicFileInfosType } from "../../../domain/music/types";
 import { IMusicUseCases } from "../../../domain/music/use-cases";
 import { generateUUID } from "../../../helpers";
 import { left, right } from "../../../_shared/either";
@@ -48,10 +48,7 @@ export class MusicUseCases implements IMusicUseCases {
     };
 
     await this.musicServices.downloadUrlMusic(downloadData, async () => {
-      await this.musicServices.uploadMusic({
-        filePath: musicPath,
-        saveName: `${id}.mp3`,
-      });
+      console.log("Download complete");
     });
 
     return right(infos);
@@ -69,6 +66,16 @@ export class MusicUseCases implements IMusicUseCases {
       return left(new NotFoundMusicError(id));
     }
 
-    return right(musicOrNull);
+    const fileInfos = {
+      fileName: `${musicOrNull.id}.mp3`,
+      filePath: `${saveYTMusicFrom}/${musicOrNull.id}.mp3`,
+    };
+
+    const musicInfos: MusicFileInfosType = {
+      ...musicOrNull,
+      ...fileInfos,
+    };
+
+    return right(musicInfos);
   }
 }

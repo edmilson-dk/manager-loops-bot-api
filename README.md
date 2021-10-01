@@ -12,9 +12,9 @@ API para fazer o gerenciamento do bot Loops.
   - [x] Fazer download da música
 - [x] Criar rota para listar todas as músicas e suas informações
 - [x] Criar rota para fazer dowload da música armazenada no servidor
-- [ ] Disparar evento para o bot quando uma música for adicionada
-  - [ ] Após disparar o evento, o bot deve fazer um no fetch para pegar a nova lista de músicas
-  - [ ] A nova música deve ser adicionada ao banco de dados e listada ao fim da lista
+- [x] Disparar evento para o bot quando uma música for adicionada
+  - [x] Após disparar o evento, o bot deve fazer um no fetch para pegar a nova lista de músicas
+  - [x] A nova música deve ser adicionada ao banco de dados e listada ao fim da lista
 - [ ] Criar rota para deletar uma música
   - [ ] Após deletar a música, deve apagar a música localmente.
   - [ ] Após deletar a música, o bot deve fazer um no fetch para pegar a nova lista de músicas

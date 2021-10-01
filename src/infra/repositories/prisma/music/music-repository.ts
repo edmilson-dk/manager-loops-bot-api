@@ -24,7 +24,9 @@ export class MusicRepository implements IMusicRepository {
   }
 
   async getMusics(): Promise<MusicDBType[]> {
-    const data = await prismaDB.music.findMany();
+    const data = await prismaDB.music.findMany({
+      orderBy: { position: "asc" },
+    });
 
     return data.map((music) => {
       return MusicMapper.fromDto(music);

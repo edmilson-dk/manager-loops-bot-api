@@ -1,0 +1,33 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Music {
+  id        String   @id
+  name      String
+  artist    String
+  url       String
+  position  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Connection {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+}

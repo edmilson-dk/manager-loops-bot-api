@@ -6,4 +6,5 @@ export interface IMusicServices {
   getMusicInfosByUrl(url: string): Promise<MusicInfosType>;
   downloadUrlMusic(props: MusicDownloadUrlType, callback: Function): Promise<string>;
   getLocalMusicStream(props: GetLocalMusicStreamType): Promise<fs.ReadStream>;
+  deleteFile(path: string): Promise<void>;
 }

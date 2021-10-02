@@ -44,4 +44,8 @@ export class MusicServices implements IMusicServices {
     console.log(`${props.fileName} is streaming`);
     return readableStream;
   }
+
+  async deleteFile(path: string): Promise<void> {
+    await fs.promises.unlink(path);
+  }
 }

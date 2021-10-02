@@ -12,6 +12,7 @@ import { InvalidUrlError } from "../../../domain/music/errors/invalid-url-error"
 import { AddMusicResponse, GetMusicResponse, GetMusicsResponse } from "../../../domain/music/ports";
 import { NotFoundMusicError } from "../../../domain/music/errors/not-found-music-error";
 import { Sockets } from "../../../_shared/sockets";
+import { SOCKET_EVENTS } from "../../../_shared/events";
 
 const saveYTMusicFrom = process.env.FILES_YOUTUBE_PATH as string;
 
@@ -57,7 +58,7 @@ export class MusicUseCases implements IMusicUseCases {
 
     await this.musicServices.downloadUrlMusic(downloadData, async () => {
       console.log("Download complete");
-      socket.ioServer.emit("addNewMusic", musicInfos);
+      socket.ioServer.emit(SOCKET_EVENTS.addedNewMusic, musicInfos);
     });
 
     return right(musicInfos);
@@ -86,5 +87,26 @@ export class MusicUseCases implements IMusicUseCases {
     };
 
     return right(musicInfos);
+  }
+
+  async dropMusic(id: string, socket: Sockets): Promise<void> {
+    const musicOrNull = await this.musicRepository.getMusic(id);
+
+    if (!musicOrNull) {
+      return;
+    }
+
+    const filePath = `${saveYTMusicFrom}/${musicOrNull.id}.mp3`;
+
+    await this.musicRepository.dropMusicById(id);
+    await this.musicServices.deleteFile(filePath);
+
+    socket.ioServer.emit(SOCKET_EVENTS.droppedMusic, {
+      id,
+      name: musicOrNull.name,
+      position: musicOrNull.position,
+    });
+
+    return;
   }
 }

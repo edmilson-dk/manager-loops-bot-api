@@ -6,4 +6,5 @@ export interface IMusicUseCases {
   addMusic: (music: CreateMusicInputType, socket: Sockets) => Promise<AddMusicResponse>;
   getMusics: () => Promise<GetMusicsResponse>;
   getMusic: (id: string) => Promise<GetMusicResponse>;
+  dropMusic: (id: string, socket: Sockets) => Promise<void>;
 }

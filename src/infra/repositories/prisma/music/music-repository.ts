@@ -42,4 +42,10 @@ export class MusicRepository implements IMusicRepository {
 
     return MusicMapper.fromDto(data);
   }
+
+  async dropMusicById(id: string): Promise<void> {
+    await prismaDB.music.delete({
+      where: { id },
+    });
+  }
 }

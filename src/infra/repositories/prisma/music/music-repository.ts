@@ -9,7 +9,7 @@ export class MusicRepository implements IMusicRepository {
       orderBy: { position: "desc" },
     });
 
-    const newPosition = lastMusicByPosition[0].position + 1;
+    const newPosition = lastMusicByPosition[0]?.position + 1 ?? 0;
 
     const position = await prismaDB.music.create({
       data: {

@@ -24,7 +24,7 @@ export class AddMusicController implements BaseController {
           url,
           artist,
         },
-        httpRequest.rest.io,
+        httpRequest.io,
       );
 
       if (infosOrError.isLeft()) {

@@ -42,6 +42,7 @@ export class AddMusicController implements BaseController {
 
       return ok({ infos }, 201);
     } catch (err) {
+      console.log(err);
       return serverError("Interval server error");
     }
   }

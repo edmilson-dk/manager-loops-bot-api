@@ -9,8 +9,11 @@ import {
   MusicDownloadUrlType,
   MusicInfosType,
 } from "../../../application/services/music/types";
+import path from "path";
 
 export class MusicServices implements IMusicServices {
+  private readonly musicsPath = path.resolve(__dirname, "../../../../musics/youtube");
+
   constructor() {}
 
   async getMusicInfosByUrl(url: string): Promise<MusicInfosType> {
@@ -47,5 +50,10 @@ export class MusicServices implements IMusicServices {
 
   async deleteFile(path: string): Promise<void> {
     await fs.promises.unlink(path);
+  }
+
+  async getLocalMusicsFiles(filesPath: string): Promise<string[]> {
+    const files = await fs.promises.readdir(filesPath);
+    return files;
   }
 }

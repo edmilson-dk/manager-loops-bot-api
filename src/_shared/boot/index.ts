@@ -1,5 +1,6 @@
 import path from "path";
 
+import { MusicDBType } from "../../domain/music/types";
 import { MusicRepository } from "../../infra/repositories/prisma/music/music-repository";
 import { MusicServices } from "../../infra/services/musics";
 import { SOCKET_EVENTS } from "../events";
@@ -16,31 +17,27 @@ export class Boot {
     this.socket = socket;
   }
 
+  private async downloadMusic(music: MusicDBType) {
+    await this.musicServices.downloadUrlMusic(
+      {
+        saveName: music.id,
+        saveToPath: `${saveYTMusicFrom}/${music.id}.mp3`,
+        url: music.url,
+      },
+      async () => {
+        console.log("Music file updated");
+        console.log(`Saving to ${saveYTMusicFrom}/${music.id}.mp3`);
+        this.socket.io.emit(SOCKET_EVENTS.addedNewMusic, music);
+      },
+    );
+  }
+
   public async updateMusicsFiles() {
     const musicsDb = await this.musicRepository.getMusics();
 
     await Promise.all(
       musicsDb.map(async (music) => {
-        const musicInfos = {
-          id: music.id,
-          name: music.name,
-          artist: music.artist,
-          url: music.url,
-          position: music.position,
-        };
-
-        return await this.musicServices.downloadUrlMusic(
-          {
-            saveName: music.id,
-            saveToPath: `${saveYTMusicFrom}/${music.id}.mp3`,
-            url: music.url,
-          },
-          async () => {
-            console.log("Music file updated");
-            console.log(`Saving to ${saveYTMusicFrom}/${music.id}.mp3`);
-            this.socket.io.emit(SOCKET_EVENTS.addedNewMusic, musicInfos);
-          },
-        );
+        return await this.downloadMusic(music);
       }),
     );
   }
@@ -57,26 +54,7 @@ export class Boot {
     if (musicsNotInMemory.length > 0) {
       await Promise.all(
         musicsNotInMemory.map(async (music) => {
-          const musicInfos = {
-            id: music.id,
-            name: music.name,
-            artist: music.artist,
-            url: music.url,
-            position: music.position,
-          };
-
-          return await this.musicServices.downloadUrlMusic(
-            {
-              saveName: music.id,
-              saveToPath: `${saveYTMusicFrom}/${music.id}.mp3`,
-              url: music.url,
-            },
-            async () => {
-              console.log("Download complete");
-              console.log(`Saving to ${saveYTMusicFrom}/${music.id}.mp3`);
-              this.socket.io.emit(SOCKET_EVENTS.addedNewMusic, musicInfos);
-            },
-          );
+          return await this.downloadMusic(music);
         }),
       );
     }

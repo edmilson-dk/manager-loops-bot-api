@@ -7,9 +7,8 @@ import { server, socket } from "./app/express";
 const boot = new Boot(socket);
 const PORT = process.env.PORT || 8080;
 
-server.on("request", async () => {
-  console.log("Updating musics");
-  await boot.bootstrap();
+socket.ioServer.on("updated_musics", async () => {
+  await boot.updateMusicsFiles();
 });
 
 server.listen(PORT, async () => {

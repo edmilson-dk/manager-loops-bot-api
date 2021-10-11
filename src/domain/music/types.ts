@@ -2,6 +2,7 @@ export type CreateMusicType = {
   name: string;
   artist: string;
   url: string;
+  duration: number;
   id: string;
 };
 
@@ -15,6 +16,7 @@ export type MusicDBType = {
   name: string;
   artist: string;
   url: string;
+  duration: number;
   position: number;
   createdAt: string;
   updatedAt: string;
@@ -31,4 +33,5 @@ export type MusicType = {
   artist: string;
   url: string;
   position: number;
+  duration: number;
 };

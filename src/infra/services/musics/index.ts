@@ -21,6 +21,7 @@ export class MusicServices implements IMusicServices {
 
     return {
       name: info.videoDetails.title,
+      duration: Number(info.videoDetails.lengthSeconds),
     };
   }
 

@@ -1,7 +1,7 @@
 import { MusicDBType } from "../../music/types";
 
 export class MusicMapper {
-  public static fromDto(data: any): MusicDBType {
+  public static toDto(data: any): MusicDBType {
     return {
       id: data.id,
       name: data.name,
@@ -10,6 +10,7 @@ export class MusicMapper {
       position: data.position,
       createdAt: data.createdAt.toISOString(),
       updatedAt: data.updatedAt.toISOString(),
+      duration: data.duration,
     };
   }
 }

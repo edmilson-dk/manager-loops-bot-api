@@ -18,6 +18,7 @@ export class MusicRepository implements IMusicRepository {
         name: music.name,
         url: music.url,
         position: newPosition,
+        duration: music.duration,
       },
       select: {
         position: true,
@@ -33,7 +34,7 @@ export class MusicRepository implements IMusicRepository {
     });
 
     return data.map((music) => {
-      return MusicMapper.fromDto(music);
+      return MusicMapper.toDto(music);
     });
   }
 
@@ -44,7 +45,7 @@ export class MusicRepository implements IMusicRepository {
 
     if (!data) return null;
 
-    return MusicMapper.fromDto(data);
+    return MusicMapper.toDto(data);
   }
 
   async dropMusicById(id: string): Promise<void> {

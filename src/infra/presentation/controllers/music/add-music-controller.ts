@@ -38,11 +38,11 @@ export class AddMusicController implements BaseController {
         name: music.name,
         id: music.id,
         position: music.position,
+        duration: music.duration,
       };
 
       return ok({ infos }, 201);
     } catch (err) {
-      console.log(err);
       return serverError("Interval server error");
     }
   }

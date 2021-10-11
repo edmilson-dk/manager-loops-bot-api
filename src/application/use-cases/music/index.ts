@@ -40,6 +40,7 @@ export class MusicUseCases implements IMusicUseCases {
       artist: music.artist,
       url: music.url,
       name: infos.name,
+      duration: infos.duration,
       id,
     });
 
@@ -49,6 +50,7 @@ export class MusicUseCases implements IMusicUseCases {
       artist: music.artist,
       url: music.url,
       position: position.position,
+      duration: infos.duration,
     };
 
     const downloadData = {

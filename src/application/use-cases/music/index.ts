@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
+import path from "path";
 
 import { CreateMusicInputType, MusicFileInfosType } from "../../../domain/music/types";
 import { IMusicUseCases } from "../../../domain/music/use-cases";
@@ -14,7 +15,7 @@ import { NotFoundMusicError } from "../../../domain/music/errors/not-found-music
 import { Sockets } from "../../../_shared/sockets";
 import { SOCKET_EVENTS } from "../../../_shared/events";
 
-const saveYTMusicFrom = process.env.FILES_YOUTUBE_PATH as string;
+const saveYTMusicFrom = path.resolve(__dirname + "../../../../../musics/youtube");
 
 export class MusicUseCases implements IMusicUseCases {
   private readonly musicRepository: IMusicRepository;
@@ -39,6 +40,7 @@ export class MusicUseCases implements IMusicUseCases {
       artist: music.artist,
       url: music.url,
       name: infos.name,
+      duration: infos.duration,
       id,
     });
 
@@ -48,6 +50,7 @@ export class MusicUseCases implements IMusicUseCases {
       artist: music.artist,
       url: music.url,
       position: position.position,
+      duration: infos.duration,
     };
 
     const downloadData = {
@@ -58,6 +61,7 @@ export class MusicUseCases implements IMusicUseCases {
 
     await this.musicServices.downloadUrlMusic(downloadData, async () => {
       console.log("Download complete");
+      console.log(`Saving to ${saveYTMusicFrom}/${id}.mp3`);
       socket.ioServer.emit(SOCKET_EVENTS.addedNewMusic, musicInfos);
     });
 

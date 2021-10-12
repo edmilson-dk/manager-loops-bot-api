@@ -24,7 +24,7 @@ export class AddMusicController implements BaseController {
           url,
           artist,
         },
-        httpRequest.rest.io,
+        httpRequest.io,
       );
 
       if (infosOrError.isLeft()) {
@@ -38,6 +38,7 @@ export class AddMusicController implements BaseController {
         name: music.name,
         id: music.id,
         position: music.position,
+        duration: music.duration,
       };
 
       return ok({ infos }, 201);

@@ -24,4 +24,4 @@ app.use(urlencoded({ extended: true }));
 
 app.use("/api", router);
 
-export { app, server };
+export { app, server, socket };

@@ -19,7 +19,7 @@ export class DropMusicController implements BaseController {
         return badRequest(new MissingParamError("id"));
       }
 
-      await this.musicUseCase.dropMusic(id, httpRequest.rest.io);
+      await this.musicUseCase.dropMusic(id, httpRequest.io);
 
       return ok({ message: "Music deleted" });
     } catch (err) {

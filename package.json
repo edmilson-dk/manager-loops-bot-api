@@ -6,7 +6,8 @@
   "author": "edmilson-dk <droidvidaboa@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && tsc",
+    "build": "node build.js && npm run migrate && rm -rf dist && tsc",
+    "migrate": "npx prisma migrate deploy",
     "start": "node dist/main/index.js",
     "start:dev": "npx ts-node-dev --respawn --pretty --transpile-only src/main/index.ts",
     "format": "prettier --write \"src/**/*.ts\"",

@@ -28,7 +28,7 @@ export class LoginAdminController implements BaseController {
         return badRequest(userOrError.value, 400);
       }
 
-      const data = AdminMapper.fromDTO(userOrError.value);
+      const data = AdminMapper.toDto(userOrError.value);
       const token = createJWT({ email: data.email, id: data.id });
 
       return ok({ admin: data, token }, 200);

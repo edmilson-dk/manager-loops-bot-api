@@ -62,7 +62,7 @@ export class MusicUseCases implements IMusicUseCases {
     await this.musicServices.downloadUrlMusic(downloadData, async () => {
       console.log("Download complete");
       console.log(`Saving to ${saveYTMusicFrom}/${id}.mp3`);
-      socket.ioServer.emit(SOCKET_EVENTS.addedNewMusic, musicInfos);
+      socket.io.emit(SOCKET_EVENTS.addedNewMusic, musicInfos);
     });
 
     return right(musicInfos);
@@ -105,7 +105,7 @@ export class MusicUseCases implements IMusicUseCases {
     await this.musicRepository.dropMusicById(id);
     await this.musicServices.deleteFile(filePath);
 
-    socket.ioServer.emit(SOCKET_EVENTS.droppedMusic, {
+    socket.io.emit(SOCKET_EVENTS.droppedMusic, {
       id,
       name: musicOrNull.name,
       position: musicOrNull.position,

@@ -10,7 +10,7 @@ const app: express.Application = express();
 const server: http.Server = http.createServer(app);
 const socket = new Sockets(server);
 
-socket.ioServer.on("connection", socket.onConnection);
+socket.onStartEvents();
 
 app.use((req, res, next) => {
   req.io = socket;

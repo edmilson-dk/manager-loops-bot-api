@@ -11,7 +11,7 @@ import { authMiddleware } from "../middlewares/auth";
 
 export const musicRouter: Router = Router();
 
-musicRouter.post("/add", authMiddleware, adaptRoute(makeAddMusicController()));
+musicRouter.post("/add", adaptRoute(makeAddMusicController()));
 musicRouter.get("/list", adaptRoute(makeGetMusicsController()));
 musicRouter.get("/download/:id", adaptRouteWithSendFileStream(makeDownloadMusicFileController()));
-musicRouter.delete("/drop/:id", authMiddleware, adaptRoute(makeDropMusicController()));
+musicRouter.delete("/drop/:id", adaptRoute(makeDropMusicController()));

@@ -1,9 +1,11 @@
 import fs from "fs";
 import path from "path";
 import { MusicDBType } from "../../domain/music/types";
+import { ServerConnectedType } from "../types";
 
 type MemoryDBType = {
   actualMusic: MusicDBType;
+  servers: ServerConnectedType[];
 };
 
 export class ManagerMemory {
@@ -32,6 +34,15 @@ export class ManagerMemory {
 
   public setActualMusic(music: MusicDBType): void {
     this.memoryDbFile.actualMusic = music;
+    fs.writeFileSync(this.musicsInfosPath, JSON.stringify(this.memoryDbFile, null, 2));
+  }
+
+  public getServersConnected(): ServerConnectedType[] {
+    return this.memoryDbFile.servers;
+  }
+
+  public setServersConnected(data: ServerConnectedType[]) {
+    this.memoryDbFile.servers = data;
     fs.writeFileSync(this.musicsInfosPath, JSON.stringify(this.memoryDbFile, null, 2));
   }
 }

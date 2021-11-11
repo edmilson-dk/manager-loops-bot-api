@@ -17,16 +17,17 @@ export class Sockets {
   }
 
   private onMusicPlaying(data: any) {
-    console.log("Music is playing: ", data);
     this.managerMemory.setActualMusic(data);
     this.io.in(SOCKET_EVENTS.roomMain).emit(SOCKET_EVENTS.onMusicIsPlaying, data);
   }
 
   private onGetActualMusicPlaying(data: any) {
     const actualMusic = this.managerMemory.getActualMusic();
-
-    console.log("Get actual music playing: ", actualMusic);
     this.io.in(SOCKET_EVENTS.roomMain).emit(SOCKET_EVENTS.onMusicIsPlaying, actualMusic);
+  }
+
+  private onChangeServersConnected(data: any) {
+    this.io.in(SOCKET_EVENTS.roomMain).emit(SOCKET_EVENTS.serversConnected, data);
   }
 
   private onConnection(socket: SocketIO.Socket) {
@@ -41,6 +42,9 @@ export class Sockets {
 
     socket.on(SOCKET_EVENTS.musicIsPlaying, (data) => this.onMusicPlaying(data));
     socket.on(SOCKET_EVENTS.getActualMusicPlaying, (data) => this.onGetActualMusicPlaying(data));
+    socket.on(SOCKET_EVENTS.onChangeServersConnected, (data) => {
+      this.onChangeServersConnected(data);
+    });
   }
 
   private onDisconnect(socket: SocketIO.Socket) {

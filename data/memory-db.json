@@ -1,3 +1,18 @@
 {
-  "actualMusic": {}
+  "actualMusic": {
+    "id": "7a28b1fe-6e16-4263-96c8-cff0e5e0b3e3",
+    "name": "Hozier - Take Me To Church (Official Video)",
+    "artist": "Hozier",
+    "url": "https://www.youtube.com/watch?v=PVjiKRfKpPI",
+    "position": 1,
+    "createdAt": "2021-10-16T22:18:38.464Z",
+    "updatedAt": "2021-10-16T22:18:38.464Z",
+    "duration": 257
+  },
+  "servers": [
+    {
+      "id": "890606632109768714",
+      "name": "T2"
+    }
+  ]
 }
